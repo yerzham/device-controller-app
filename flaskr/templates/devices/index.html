@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Your Devices{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <script>
+    async function deviceSwitch(e) {
+      e.target.checked = !e.target.checked
+      var confirmed = true
+      if (e.target.checked)
+        confirmed = confirm("Continue to turn the device off?")
+      else
+        confirmed = confirm("Continue to turn the device on?")
+      if (confirmed) {
+        var device_id = e.target.name.substr(7, e.target.name.length)
+        const response = await fetch(`/${device_id}/switch`, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: (!e.target.checked).toString() // body data type must match "Content-Type" header
+        });
+        if (response.ok && await response.text() == "Success") {
+          e.target.checked = !e.target.checked
+        } else {
+          alert("Failure in changing the state.")
+        }
+      }
+    }
+  </script>
+  <div class="accordion" id="devices-accordion">
+    {% if devices is defined %}
+      {% for device in devices %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{loop.index}}">
+          <button class="accordion-button collapsed bg-light bg-gradient" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapseTwo">
+            {{ device['name'] }}
+          </button>
+        </h2>
+        <div id="collapse{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading{{loop.index}}" data-bs-parent="#devices-accordion">
+          <div class="accordion-body">
+            <dl class="row">
+              <dt class="col-sm-3 col-lg-2">Description</dt>
+              <dd class="col-sm-9 col-lg-10">{{ device['description'] }}</dd>
+            
+              <dt class="col-sm-3 col-lg-2">Access Token</dt>
+              <dd class="col-sm-9 col-lg-10">{{ device['access_token'] }}</dd>
+            
+              <dt class="col-sm-3 col-lg-2">Switch</dt>
+              <dd class="col-sm-9 col-lg-10">
+                <div class="form-check form-switch">
+                  <input {% if device['state'] == 1 %} checked {% endif %} class="form-check-input" type="checkbox" name="switch-{{device['id']}}" id="switch-{{device['id']}}" onclick="deviceSwitch(event);">
+                  <label class="form-check-label" for="switch-{{device['id']}}">Turn the device on/off</label>
+                </div>
+              </dd>
+            </dl>
+            <a class="btn btn-primary" href="{{ url_for('devices.update', id=device['id']) }}">Edit</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p class="fs-2">Please, register or log in to the service to work with your devices in the network.</p>
+    {% endif %}
+  </div>
+{% endblock %}
