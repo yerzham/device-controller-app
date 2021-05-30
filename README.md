@@ -3,6 +3,7 @@ Server side application to control devices through 4G / 5G network. Part of Aalt
 
 ## Configure
 ```
+$ export FLASK_APP=flaskr
 $ python3 -m venv venv
 $ . venv/bin/activate
 $ pip3 install -r requirements.txt
