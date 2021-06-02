@@ -7,6 +7,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip install --upgrade pip
 RUN pip install waitress
 
-COPY . .
-RUN pip install -e .
-CMD [ "waitress-serve", "--port=5050", "--call", "flaskr:create_app" ]
+COPY . /app
+RUN pip install -r /app/requirements.txt
+CMD [ "waitress-serve", "--port=5050", "--call", "/app/flaskr:create_app" ]
