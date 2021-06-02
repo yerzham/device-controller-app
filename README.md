@@ -37,6 +37,11 @@ Stop or start the web application:
 $ docker stop indtrain
 $ docker start indtrain
 ```
+Delete the build:
+```
+$ docker rm indtrain
+$ docker rmi indtrain
+```
 Reset the database:
 ```
 $ docker stop indtrain
