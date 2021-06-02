@@ -11,4 +11,4 @@ RUN pip install --upgrade pip
 RUN pip install waitress
 
 RUN pip install -r /app/requirements.txt
-CMD [ "waitress-serve", "--port=5050", "--call", "/app/flaskr:create_app" ]
+CMD [ "waitress-serve", "--port=5050", "--call", "flaskr:create_app" ]
