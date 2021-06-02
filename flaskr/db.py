@@ -12,6 +12,15 @@ def get_db():
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
+        res = g.db.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        found = False
+        for name in res:
+            if name[0] == "device":
+                found = True
+            if found == True:
+                break
+        if not found:
+            init_db()
 
     return g.db
 
