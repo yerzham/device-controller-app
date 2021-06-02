@@ -41,11 +41,12 @@ Delete the build:
 ```
 $ docker rm indtrain
 $ docker rmi indtrain
+$ docker volume rm indtrain-db
 ```
 Reset the database:
 ```
-$ docker stop indtrain
 $ docker rm indtrain
+$ docker rmi indtrain
 $ docker volume rm indtrain-db
 $ docker volume create indtrain-db
 $ docker run -d -p 5050:5050 --name indtrain --restart always -v indtrain-db:/tmp indtrain
