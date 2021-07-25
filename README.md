@@ -1,5 +1,5 @@
 # Industrial Training Course Server
-Server side application to control devices through 4G / 5G network. Part of Aalto University ELEC-C7430 Industrial Training course.
+Server side application to control devices through a network. Part of Aalto University ELEC-C7430 Industrial Training course.
 
 ## Configure
 Create a config.py in the instance folder:
